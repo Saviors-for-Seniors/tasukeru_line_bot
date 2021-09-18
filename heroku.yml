@@ -6,9 +6,9 @@
   #   S3_BUCKET: my-example-bucket
 build:
   docker:
-    release:
-       dockerfile: Dockerfile
-       target: prod
+    # release:
+    #    dockerfile: Dockerfile
+    #    target: prod
     web: Dockerfile
     # worker: worker/Dockerfile
   # config:
