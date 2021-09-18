@@ -3,12 +3,12 @@ version: '3'
 services:
   webapp:
     # build: .
-    image: tasukeru_bot_dev
+    image: tasukeru_bot_prod
     container_name: "webapp"
     volumes:
       - "./webapp:/webapp"
     ports:
       - 8000:8000
-    environment:
-      # PORT: '8000'
+    # environment:
+    # PORT: '8000'
     # command: /bin/sh -c "while :; do sleep 10; done"
