@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  webapp:
+    # build: .
+    image: tasukeru_bot_dev
+    container_name: "webapp"
+    volumes:
+      - "./webapp:/webapp"
+    ports:
+      - 8000:8000
+    environment:
+      PYTHONPATH: '/webapp/'
+      # PORT: '8000'
+    # command: /bin/sh -c "while :; do sleep 10; done"

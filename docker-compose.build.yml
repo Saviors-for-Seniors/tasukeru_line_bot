@@ -1,0 +1,17 @@
+version: "3.4"
+services:
+    tasukeru_bot_base:
+        build:
+            context: .
+            target: base
+        image: tasukeru_bot_base:latest
+    tasukeru_bot_dev:
+        build:
+            context: .
+            target: dev
+        image: tasukeru_bot_dev:latest
+    tasukeru_bot_prod:
+        build:
+            context: .
+            target: prod
+        image: tasukeru_bot_prod:latest
