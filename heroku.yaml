@@ -1,0 +1,28 @@
+# setup:
+  # addons:
+  #   - plan: heroku-postgresql
+  #     as: DATABASE
+  # config:
+  #   S3_BUCKET: my-example-bucket
+build:
+  docker:
+    release:
+       dockerfile: Dockerfile
+       target: prod
+    web: Dockerfile
+    worker: worker/Dockerfile
+  # config:
+  #   RAILS_ENV: development
+  #   FOO: bar
+# release:
+#   command:
+#     - ./deployment-tasks.sh
+#   image: worker
+# ​heroku.yml​ マニフェストに ​run​ セクションを含めない場合は、代わりに ​Dockerfile​ ​CMD​ が使用されます。
+# run:
+#   web: bundle exec puma -C config/puma.rb
+#   worker: python myworker.py
+#   asset-syncer:
+#     command:
+#       - python asset-syncer.py
+#     image: worker
