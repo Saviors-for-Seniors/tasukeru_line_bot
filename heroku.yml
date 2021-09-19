@@ -5,6 +5,7 @@
   # config:
   #   S3_BUCKET: my-example-bucket
 build:
+  # (TODO) マルチステージビルドの記述をするとビルドは通るけどデプロイが通らない
   docker:
     # release:
     #    dockerfile: Dockerfile

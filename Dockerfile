@@ -18,10 +18,10 @@ WORKDIR /webapp
 # (TODO) {$PORT}と書いたら変数は渡ってるけどuvicornが起動できない(数字直書きだと動く)
 # []外したら動く
 # CMD ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8000", "--log-level", "trace", "--use-colors"]
-CMD uvicorn main:app --reload --host 0.0.0.0 --port ${PORT} --log-level trace --use-colors
+CMD uvicorn main:app --reload --host 0.0.0.0 --port $PORT --log-level trace --use-colors
 
 # PRODUCTION
 FROM base as prod
 ADD ./ /webapp/
 WORKDIR /webapp
-CMD uvicorn main:app --host 0.0.0.0 --port ${PORT} --log-level trace --use-colors
+CMD uvicorn main:app --host 0.0.0.0 --port $PORT --log-level trace --use-colors
