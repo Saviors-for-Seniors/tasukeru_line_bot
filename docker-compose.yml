@@ -11,4 +11,6 @@ services:
       - 5000:8000
     env_file:
       - ./.env
-    # command: /bin/sh -c "while :; do sleep 10; done"
+    # heroku config:setでPORTの環境変数渡したくないので分けて設定
+    environment:
+      - PORT=8000

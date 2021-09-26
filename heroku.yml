@@ -1,9 +1,10 @@
-# setup:
+setup:
   # addons:
   #   - plan: heroku-postgresql
   #     as: DATABASE
-  # config:
-  #   S3_BUCKET: my-example-bucket
+  config:
+    CHANNEL_SECRET: $CHANNEL_SECRET
+    CHANNEL_ACCESS_TOKEN: $CHANNEL_ACCESS_TOKEN
 build:
   # (TODO) マルチステージビルドの記述をするとビルドは通るけどデプロイが通らない
   docker:
@@ -12,9 +13,6 @@ build:
     #    target: prod
     web: Dockerfile
     # worker: worker/Dockerfile
-  # config:
-  #   RAILS_ENV: development
-  #   FOO: bar
 # release:
 #   command:
 #     - ./deployment-tasks.sh
