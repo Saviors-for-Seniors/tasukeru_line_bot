@@ -1,56 +1,45 @@
 import os
-from linebot import LineBotApi, WebhookHandler
+from linebot import LineBotApi, WebhookHandler, WebhookParser
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import ImageMessage, MessageEvent, TextMessage, TextSendMessage
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, BackgroundTasks 
+from starlette.requests import Request
+
+from aiolinebot import AioLineBotApi
+
+import requests
+
 app = FastAPI()
 
 CHANNEL_SECRET = os.environ['CHANNEL_SECRET']
+CHANNEL_ACCESS_TOKEN = os.environ['CHANNEL_ACCESS_TOKEN']
 
 handler = WebhookHandler(CHANNEL_SECRET)
+parser = WebhookParser(CHANNEL_SECRET)
+line_bot_api = AioLineBotApi(CHANNEL_ACCESS_TOKEN)
 
-@app.route("/callback", methods=['POST'])
-def callback():
-    # get X-Line-Signature header value
-    signature = request.headers['X-Line-Signature']
+@app.post("/callback")
+async def callback(request: Request, background_tasks: BackgroundTasks):
+    events = parser.parse(
+        (await request.body()).decode("utf-8"),
+        request.headers.get("X-Line-Signature", "")
+    )
 
-    # get request body as text
-    body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
+    background_tasks.add_task(handle_events, events=events)
 
-    # handle webhook body
-    try:
-        handler.handle(body, signature)
-    except InvalidSignatureError:
-        abort(400)
+    return "ok"
 
-    return 'OK'
-
-# テキストを受け取る部分
-@handler.add(MessageEvent, message=TextMessage)
-def handler_message(event):
-    if event.message.text == "ミカンおくるね":
-        text = "おっけい！"
-    else:
-        text = "ミカンまだかい？"
-
-    #linebotのAPIを使っている．ここでTextSendMessageはpython用のLineBotSDK．
-    # 引数であるeventの正体は調査中．
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=text))
+async def handle_events(events):
+    for event in events:
+        try:
+            await line_bot_api.reply_message_async(
+                event.reply_token,
+                TextMessage(text=event.message.text))
+        except Exception as e:
+            print("Error !!", e)
 
 # FastAPI
-@app.get("/")
+@app.get("/healthcheck")
 def hello():
-    # Flask
-    # host = os.getenv('HOST', '0.0.0.0')
-    # port = int(os.getenv('PORT', '5000'))
-    # app.run()
-
-    # FastAPI
     return {"Hello": "World"}
-
-if __name__ == '__main__':
-    main()

@@ -4,3 +4,4 @@ uvicorn==0.15.0
 fastapi==0.68.1
 transformers
 line-bot-sdk==1.20.0
+aiolinebot==0.4 #alpineだと入らない

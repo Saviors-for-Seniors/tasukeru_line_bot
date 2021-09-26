@@ -2,7 +2,7 @@ version: '3'
 
 services:
   webapp:
-    # build: .
+    build: .
     image: tasukeru_bot_dev
     container_name: "webapp"
     volumes:

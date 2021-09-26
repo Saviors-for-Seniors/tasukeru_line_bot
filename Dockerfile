@@ -1,10 +1,9 @@
-FROM alpine:latest
-# FROM alpine:latest as base
+FROM python:3.8-slim
 
-RUN apk add --no-cache --update python3 py3-pip bash
+RUN apt-get update && apt-get install -y python3-pip
 ADD ./webapp/requirements.txt /tmp/requirements.txt
 
-RUN pip3 install --no-cache-dir -q -r /tmp/requirements.txt
+RUN pip install --no-cache-dir -q -r /tmp/requirements.txt
 
 # $PORT is set by Heroku
 
