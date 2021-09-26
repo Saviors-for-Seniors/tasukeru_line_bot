@@ -23,4 +23,5 @@ RUN pip install --no-cache-dir -q -r /tmp/requirements.txt
 # PRODUCTION
 # FROM base as prod
 ADD ./ /webapp/
+WORKDIR /webapp
 CMD uvicorn webapp.main:app --host 0.0.0.0 --port $PORT --log-level trace --use-colors
