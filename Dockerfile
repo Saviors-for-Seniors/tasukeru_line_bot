@@ -1,6 +1,6 @@
 FROM python:3.8-slim
 
-RUN apt-get update && apt-get install -y python3-pip
+RUN apt-get update && apt-get install -y python3-pip mecab libmecab-dev mecab-ipadic-utf8
 ADD ./webapp/requirements.txt /tmp/requirements.txt
 
 RUN pip install --no-cache-dir -q -r /tmp/requirements.txt
@@ -24,4 +24,4 @@ RUN pip install --no-cache-dir -q -r /tmp/requirements.txt
 # FROM base as prod
 ADD ./ /webapp/
 WORKDIR /webapp
-CMD uvicorn webapp.main:app --host 0.0.0.0 --port $PORT --log-level trace --use-colors
+CMD uvicorn main:app --host 0.0.0.0 --port $PORT --log-level trace --use-colors

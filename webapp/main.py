@@ -10,6 +10,10 @@ from aiolinebot import AioLineBotApi
 
 import requests
 
+import sys
+sys.path.append(os.path.dirname(__file__))
+from dialogue_system.bot import Bot
+
 app = FastAPI()
 
 CHANNEL_SECRET = os.environ['CHANNEL_SECRET']
@@ -18,6 +22,8 @@ CHANNEL_ACCESS_TOKEN = os.environ['CHANNEL_ACCESS_TOKEN']
 handler = WebhookHandler(CHANNEL_SECRET)
 parser = WebhookParser(CHANNEL_SECRET)
 line_bot_api = AioLineBotApi(CHANNEL_ACCESS_TOKEN)
+
+bot = Bot()
 
 @app.post("/callback")
 async def callback(request: Request, background_tasks: BackgroundTasks):
@@ -33,11 +39,20 @@ async def callback(request: Request, background_tasks: BackgroundTasks):
 async def handle_events(events):
     for event in events:
         try:
-            await line_bot_api.reply_message_async(
-                event.reply_token,
-                TextMessage(text=event.message.text))
+            print(event.message.text)
+            await get_bot_reply(event)
         except Exception as e:
             print("Error !!", e)
+
+async def get_bot_reply(event):
+    '''ユーザの入力をbotに渡し、返事を取得する'''
+    text = event.message.text
+    # botから返事を取得する
+    reply = bot.reply(text)
+    # line botにメッセージを送る
+    await line_bot_api.reply_message_async(
+        event.reply_token,
+        TextMessage(text=reply))
 
 # FastAPI
 @app.get("/healthcheck")
