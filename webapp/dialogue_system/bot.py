@@ -9,11 +9,12 @@ class Bot(object):
 
     def __init__(self):
         self.generator = LanguageGenerator()
-        #self.language_understanding = RuleBasedLanguageUnderstanding()  # ルールベース
+        self.language_understanding = RuleBasedLanguageUnderstanding()  # ルールベース
         #self.language_understanding = Bert3ClassLanguageUnderstanding()  # 3クラスお試し
         #self.language_understanding = Bert40ClassLanguageUnderstanding()  # 40クラスお試し
-        self.language_understanding = Bert40ClassMultiLabelLanguageUnderstanding()  # 40クラス多ラベルお試し
+        #self.language_understanding = Bert40ClassMultiLabelLanguageUnderstanding()  # 40クラス多ラベルお試し
         self.manager = DialogueManager()
+        pass
 
     def reply(self, sent):
         # 言語理解
