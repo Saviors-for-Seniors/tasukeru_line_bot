@@ -12,12 +12,24 @@ https://github.com/Saviors-for-Seniors/tasukeru_line_bot.git
 
 ## 3. Imageのbuild〜push
 
-※下記、関数名（func2）、URLはちゃんと設定すること
+下記コードを実行。関数名（func2）、URLはちゃんと設定すること
+AWSのECS「プッシュコマンドの表示」からコピペ可能。
 ```
 # build
 docker build -t func2 .
+
+（※ローカルデバッグする場合はここで）
+
 # タグ付け
 docker tag func2:latest 075960133323.dkr.ecr.ap-northeast-1.amazonaws.com/func2:latest
 # プッシュ
 docker push 075960133323.dkr.ecr.ap-northeast-1.amazonaws.com/func2:latest
+```
+
+※ローカルデバッグ方法
+```
+docker run -p 9000:8080 func2
+
+（別のターミナルで）
+curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocation
 ```
