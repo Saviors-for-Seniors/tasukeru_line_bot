@@ -3,7 +3,8 @@ import urllib.request
 from logging import getLogger
 import os
 import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), 'webapp'))
+BASEDIR = os.path.dirname(__file__)
+sys.path.append(os.path.join(BASEDIR, 'webapp'))
 from dialogue_system.bot import Bot
 
 bot = Bot()
